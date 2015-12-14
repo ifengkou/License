@@ -3,17 +3,24 @@ C#程序，Web程序 许可文件制作工具
 
 
 ##介绍##
-分为Master  和 Client 项目。
+
+世界上有免费开源项目，也会有商业项目。提倡开源，也倡导保护知识产权
+
+该Repository包含两个项目：分为Master  和 Client 项目。
 
 Client用于收集服务器电脑相关配置信息（如CPU,磁盘，网卡等等），形成硬件码信息文件。
 
 Master 用于生成授权文件，根据Client生成的硬件码和 带授权程序.dll 生成 授权文件.lic
 
-生成 ![界面](制作授权文件.png)
+生成 截图：
 
-lic文件为加密内容，通过Master 程序可以进行解密验证。通过引用License.dll，我们可以利用
+![界面](制作授权文件.png)
 
-主版本，副版本，产品类型，序列号，过期日期，用户信息（如权限集合），签名
+通过引用License.dll，我们可以利用下列信息进行授权验证：
+
+	主版本，副版本，产品类型，序列号，过期日期，用户信息（如权限集合），签名
+
+我们通过Master程序对.lic 文件进行解密验证：
 
 	<?xml version="1.0" encoding="utf-16"?>
 	<License xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -37,66 +44,44 @@ VS12 直接打开运行
 
  1.项目引用License.dll文件
 
- 2.将生产的.lic 文件拷贝至运行项目根目录下，在Properties目录下，修改AssemblyInfo.cs文件，增加一项：
+ 2.将生产的.lic 文件拷贝至运行项目根目录下
 
- 	[assembly: DreamLicense.AssemblyDreamLicenseKey()]
+ 3.在项目关键Controller上加上授权文件相关代码
 
- 3.在项目关键Controller上加上授权声明：
+    //获取lic文件，默认获取根目录下的license.lic文件
+    License license = License.GetLicense()
+    //获取主版本，副版本，产品类型，序列号，过期日期，用户信息（如权限集合），签名 等信息
+    license.Copyright
+    license.LicenceTo
+    license.ProductName
+    license.MajorVersion
+    license.MinorVersion
+    license.MachineHash
+    license.ExpireTo
+    license.license.UserData
+    license.DaysLeftInTrial
+    license.SerialNumber
 
- 	[LicenseProvider(typeof(DreamLicense.DreamLicenseProvider))]
-    //public class HomeController
 
- 4.加入验证方法：
+
+ 4.验证、使用
+
+ 	//验证日期、验证MachineHash
+ 	bool License.VerifyLicense(License lic);
+
+ 	//也可以自己利用参数值做判断
+	if(license.ExpireTo > Date.now()){
+		//过期
+	}
+
+	if(license.DaysLeftInTrial < 30){
+		//即将过期，小于30天。可以提示用户
+	}
+
+	//利用UserData，将系统的菜单权限带过来
+	//license.UserData = 01,0101,0102
+	String[] menus = license.UserData.split(",");
 	
-	private ResultDto License()
-        {
-		#if DEBUG
-            return new ResultDto(true, "");
-		#else
-          License license;
-            string msg = "";
-            bool isvalid = false;
-            try
-            {
-                isvalid = LicenseManager.IsValid(typeof(HomeController), this, out license);
-                if (license == null)
-                {
-                    msg = Resource.NoLicenseFile;
-                    isvalid = false;
-                }
-                else if (((DreamLicense.LicenseFile.DreamLicenseFile)license).FailureReason != String.Empty)
-                {
-                    msg = ((DreamLicense.LicenseFile.DreamLicenseFile)license).FailureReason;
-                    isvalid = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                msg = ex.ToString();
-            }
-            return new ResultDto(isvalid, msg) ;
-		#endif
-
-        }
-
-5.在关键方法中加入上述的验证方法
-
-		public ActionResult Login()
-        {
-            var rd = License();
-            if (!rd.Result)
-            {
-				//授权不通过
-                string retu = "";
-                var rdmsg = (string)rd.Message;
-                string[] x = rdmsg.Split(new string[] { "\r" }, StringSplitOptions.None);
-                if (x.Length > 0) retu = x[0];
-                return View("NeedLicense", (object)retu);
-            }
-
-            return View("LoginPage");
-        }
-
 
 ##贡献##
 
