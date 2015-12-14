@@ -10,9 +10,9 @@ C#程序，Web程序 许可文件制作工具
 
 Client用于收集服务器电脑相关配置信息（如CPU,磁盘，网卡等等），形成硬件码信息文件。
 
-Master 用于生成授权文件，根据Client生成的硬件码和 带授权程序.dll 生成 授权文件.lic
+Master 用于生成授权文件，根据Client生成的硬件码 生成 授权文件.lic
 
-生成 截图：
+程序生成授权文件 截图：
 
 ![界面](制作授权文件.png)
 
@@ -38,13 +38,13 @@ Master 用于生成授权文件，根据Client生成的硬件码和 带授权程
 
 ##安装部署##
 
-VS12 直接打开运行
+VS12 直接打开运行或者打包。这里就不提供直接运行的exe了
 
 ##使用##
 
- 1.项目引用License.dll文件
+ 1.项目引用License.Client.dll文件
 
- 2.将生产的.lic 文件拷贝至运行项目根目录下
+ 2.将生产的license.lic 文件拷贝至运行项目根目录下
 
  3.在项目关键Controller上加上授权文件相关代码
 
@@ -63,7 +63,6 @@ VS12 直接打开运行
     license.SerialNumber
 
 
-
  4.验证、使用
 
  	//验证日期、验证MachineHash
@@ -79,7 +78,7 @@ VS12 直接打开运行
 	}
 
 	//利用UserData，将系统的菜单权限带过来
-	//license.UserData = 01,0101,0102
+	//license.UserData = 01,0101,0102......
 	String[] menus = license.UserData.split(",");
 	
 
