@@ -28,6 +28,8 @@ wikipedia:[数字签名](https://zh.wikipedia.org/zh-cn/%E6%95%B8%E4%BD%8D%E7%B0
 
 ## 流程图
 
+大致上的流程如下：
+
 ![流程图](license逻辑图.svg)
 
 ## 安装部署
