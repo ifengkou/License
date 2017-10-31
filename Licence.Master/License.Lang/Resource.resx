@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Company" xml:space="preserve">
-    <value>中联重科</value>
+    <value>ifengkou@hotmail.com</value>
   </data>
   <data name="FileNotExist" xml:space="preserve">
     <value>未能找到授权信息，请联系{0}！</value>
