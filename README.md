@@ -105,6 +105,6 @@ VS12 直接打开运行或者打包。这里就不提供直接运行的exe了
 	String[] menus = license.UserData.split(",");
 ```
 
-##贡献##
+## 贡献
 
 有任何意见或建议都欢迎提 issue，或者直接提给 [@ifengkou](mail://ifengkou@hotmail.com)
